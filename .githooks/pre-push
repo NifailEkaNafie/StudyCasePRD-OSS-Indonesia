@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+# Git Hook: pre-push
+# Memastikan aplikasi oss-mobile dapat di-build tanpa error sebelum push ke GitHub
+
+echo "🔍 Menjalankan pemeriksaan pre-push untuk oss-mobile..."
+
+if [ -d "oss-mobile" ] && [ -f "oss-mobile/package.json" ]; then
+  cd oss-mobile || exit 1
+  if [ -d "node_modules" ]; then
+    npm run build
+    if [ $? -ne 0 ]; then
+      echo "❌ [ERROR] Build gagal! Perbaiki error sebelum melakukan git push."
+      exit 1
+    fi
+  fi
+fi
+
+echo "✅ Pemeriksaan pre-push berhasil!"
+exit 0

@@ -1,0 +1,22 @@
+# <type>(<scope>): <subject>
+#
+# [optional body]
+#
+# [optional footer(s)]
+#
+# --- PANDUAN SEMANTIC COMMIT (REKAYASA INTERAKSI) ---
+# Type yang diizinkan:
+#   feat     : Penambahan fitur baru sesuai kebutuhan UX/Functional Requirement (UX-01 s/d UX-04)
+#   fix      : Perbaikan bug atau masalah UX (misal: penanganan error 403 lampiran PDF)
+#   docs     : Perubahan dokumentasi (PRD, README, CHANGELOG, CONTRIBUTING)
+#   style    : Perubahan tampilan UI/CSS tanpa mengubah logika bisnis
+#   refactor : Restrukturisasi kode komponen tanpa mengubah perilaku eksternal
+#   test     : Penambahan atau pembaruan skenario pengujian di SimulatorPanel
+#   chore    : Pembaruan konfigurasi build, git hooks, atau dependensi
+#
+# Scope yang disarankan:
+#   pdf-viewer, error-recovery, attachment-list, regulation-detail, simulator, prd, repo
+#
+# Contoh:
+#   feat(pdf-viewer): implement in-app PDF reader for regulation attachments (UX-01)
+#   fix(error-recovery): replace technical 403 error with human-readable recovery modal (UX-03)
