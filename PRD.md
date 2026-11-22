@@ -1,201 +1,302 @@
-# PRODUCT REQUIREMENTS DOCUMENT (PRD)
+# **PRODUCT REQUIREMENTS DOCUMENT (PRD)**
 
-## Fitur: Penampil Dokumen Lampiran Regulasi Terintegrasi & Pemulihan Kendala Akses PDF pada Aplikasi OSS Indonesia
+## **Fitur: Penampil & Pengelola Dokumen Lampiran Regulasi PDF Terintegrasi pada Aplikasi OSS Indonesia**
 
-- **Versi**: 1.0.0
-- **Status**: Approved for Implementation (Vibe Coding — Worksheet 12)
-- **Nama Penyusun**: Nifail Eka Nafie
-- **NIM**: 202310370311344
-- **Kelas**: Rekayasa Interaksi C
-- **Jenis Produk**: Mobile Application (Aplikasi Layanan Perizinan Berusaha — OSS Indonesia)
-- **Sumber Riset**: Sintesis Worksheet 1 (UX Detective) s/d Worksheet 8 (UX Requirements & User Stories)
+**Versi:** 1.0  
+**Status:** Draft  
+**Jenis Produk:** Fitur aplikasi layanan perizinan berusaha secara elektronik (Mobile Application — OSS Indonesia)  
+**Penyusun:** Nifail Eka Nafie (202310370311344) — Rekayasa Interaksi C
 
 ---
 
-## 1. Product Overview
+## **1\. Product Overview**
 
-### 1.1 Latar Belakang
-**OSS Indonesia (Online Single Submission)** adalah aplikasi mobile layanan perizinan berusaha berbasis risiko yang dikelola pemerintah (Kementerian Investasi/BKPM) untuk membantu pelaku usaha mengurus Nomor Induk Berusaha (NIB) serta memahami regulasi dan standar kegiatan usaha (KBLI) secara elektronik.
+### **1.1 Latar Belakang**
 
-Berdasarkan hasil investigasi **UX Detective (Worksheet 1)**, perumusan masalah **5W1H & HMW (Worksheet 2)**, pemetaan **User & Stakeholder (Worksheet 3)**, serta **Observasi & Wawancara Pengguna U1–U5 (Worksheet 4 & 5)**, ditemukan bahwa pelaku usaha sangat bergantung pada menu **Informasi -> Regulasi** untuk membaca rincian persyaratan hukum sebelum mengajukan izin.
+Pelaku usaha yang mengurus Nomor Induk Berusaha (NIB) dan perizinan berusaha berbasis risiko melalui aplikasi mobile **OSS Indonesia (Online Single Submission)** sangat membutuhkan akses terhadap informasi regulasi resmi untuk memahami standar kegiatan usaha, kode KBLI, serta persyaratan hukum yang berlaku.
 
-Namun, pada saat pengguna membuka halaman **Detail Regulasi** (seperti *Peraturan Menteri ESDM Nomor 5 Tahun 2021 tentang Standar Kegiatan Usaha dan Produk pada Penyelenggaraan Perizinan Berusaha Berbasis Risiko*) dan menekan salah satu dokumen lampiran berformat PDF (misalnya *Lampiran III*), sistem mengalami kegagalan dengan menampilkan pesan teknis **`Terjadi Kesalahan: 403 : Authentication failed`** dan layar kosong. Akibatnya:
-1. Dokumen lampiran PDF tidak dapat dibuka atau dibaca sama sekali di dalam aplikasi.
-2. Pengguna tidak memahami arti pesan error teknis `403 : Authentication failed` dan tidak diberikan alternatif tindakan yang efektif selain tombol `Coba Lagi` yang terus gagal.
-3. Pelaku usaha terhambat dalam mencocokkan kode KBLI dan persyaratan teknis legalitas usahanya.
+Namun, berdasarkan hasil observasi dan wawancara pengguna pada **Worksheet 1 hingga Worksheet 8**, ditemukan kendala kritis pada halaman **Detail Regulasi** (seperti pada *Peraturan Menteri Energi dan Sumber Daya Mineral Republik Indonesia Nomor 5 Tahun 2021*). Ketika pengguna memilih salah satu berkas lampiran regulasi berformat PDF, sistem mengalami kegagalan teknis dengan menampilkan pesan **`Terjadi Kesalahan: 403 : Authentication failed`** sehingga dokumen tidak dapat dibuka maupun dibaca.
 
-### 1.2 Product Vision
-Menyediakan pengalaman akses, pembacaan, dan pengunduhan dokumen lampiran regulasi berformat PDF yang **andal, transparan, dan bebas jalan buntu (*no dead-end UI*)** pada aplikasi mobile OSS Indonesia, sehingga pelaku usaha dapat memahami persyaratan hukum perizinan secara mandiri tanpa hambatan teknis.
+Kondisi tersebut menyebabkan pelaku usaha kehilangan akses terhadap informasi persyaratan perizinan yang terdapat di dalam dokumen lampiran, merasa bingung karena pesan kesalahan menggunakan istilah teknis yang tidak menjelaskan solusi, serta terhambat dalam melanjutkan proses pengurusan legalitas usahanya secara mandiri.
 
-### 1.3 Target Pengguna
-- **Core User**: Pelaku usaha mandiri (UMKM, mahasiswa wirausaha, maupun pemilik bisnis baru) yang menggunakan aplikasi OSS Indonesia untuk mencari informasi regulasi dan mengurus NIB secara mandiri.
-- **Secondary User**: Petugas layanan bantuan OSS yang mendampingi pelaku usaha saat mengalami kendala akses dokumen.
-- **Stakeholder**: Pengelola sistem aplikasi OSS Indonesia (Kementerian Investasi/BKPM).
+Untuk mengatasi permasalahan tersebut, dikembangkan fitur **Penampil & Pengelola Dokumen Lampiran Regulasi PDF Terintegrasi** yang memungkinkan pengguna mengenali identitas dan format dokumen secara jelas, membuka serta membaca lampiran PDF langsung di dalam aplikasi (*In-App PDF Viewer*), memperoleh alternatif unduh atau pembukaan melalui aplikasi pembaca PDF lain, serta mendapatkan pesan kesalahan yang mudah dipahami beserta tombol pemulihan (*Coba Lagi*) ketika terjadi gangguan akses.
 
----
+### **1.2 Product Vision**
 
-## 2. User Problem & Design Challenge
+Menyediakan satu pengalaman akses dan pembacaan dokumen lampiran regulasi berformat PDF yang andal, jelas, dan memiliki mekanisme pemulihan kendala (*error recovery*) yang mudah dipahami agar pelaku usaha dapat mempelajari persyaratan hukum perizinan berusaha secara mandiri tanpa hambatan.
 
-### 2.1 Temuan Riset Utama (Worksheet 1–7)
-1. **Kegagalan Membuka Lampiran PDF (Responden U5 - Worksheet 5)**:
-   > *"Aku mencoba membuka lampiran dokumen yang formatnya PDF ... kendalanya, lampiran PDF tersebut tidak bisa dibuka."* — **U5**
-2. **Dampak Emosional pada Empathy Map (Worksheet 6)**:
-   - **Think & Feel**: Merasa tidak berdaya (*helpless*) dan jengkel saat dokumen lampiran regulasi berformat PDF gagal dibuka, padahal rincian persyaratan hukum ada di dalam berkas tersebut.
-   - **Do**: Mengetuk tautan lampiran PDF berulang kali dan mencari alternatif cara untuk mengunduh berkas regulasi yang gagal terbuka.
-3. **Moment of Truth / MOT (Worksheet 7)**:
-   - Masalah terbesar terjadi pada tahap **During**, yaitu ketika pengguna menekan tautan lampiran regulasi berformat PDF pada halaman detail regulasi, tetapi dokumen gagal dimuat (`403 : Authentication failed`) tanpa jalur pemulihan (*fallback*) yang memadai.
+### **1.3 Target Pengguna**
 
-### 2.2 Problem Statement (Worksheet 2)
-**Pelaku usaha yang menggunakan aplikasi OSS Indonesia untuk mengakses layanan perizinan berusaha secara mandiri** membutuhkan akses terhadap informasi regulasi yang tersedia pada aplikasi, tetapi mengalami hambatan ketika file lampiran regulasi berformat PDF tidak dapat dibuka atau ditampilkan setelah dipilih pada halaman detail regulasi, sehingga pengguna tidak dapat memperoleh informasi yang terdapat dalam dokumen dan proses pencarian maupun pemahaman informasi regulasi menjadi terganggu.
-
-### 2.3 Design Challenge Terpilih (How Might We - Worksheet 2)
-> *"How might we membantu pengguna mengakses file lampiran regulasi so that pengguna dapat memperoleh informasi yang dibutuhkan tanpa mengalami hambatan?"*
+Pelaku usaha mandiri (termasuk pelaku UMKM dan mahasiswa wirausaha) yang menggunakan aplikasi mobile OSS Indonesia untuk mencari informasi regulasi dan mengurus perizinan berusaha (NIB) secara elektronik.
 
 ---
 
-## 3. User Persona (Worksheet 6)
+## **2\. User Problem**
 
-- **Nama Persona**: Yuda (nama samaran)
-- **Usia**: 21 Tahun
-- **Pekerjaan**: Mahasiswa yang membuka usaha mandiri di rumah
-- **Konteks Penggunaan**: Mengakses layanan OSS melalui aplikasi mobile di sela-sela mengelola operasional usaha untuk mengurus kelengkapan legalitas, mencocokkan kode KBLI, dan menerbitkan NIB.
-- **Kutipan Persona**:
-  > *"Saya ingin mengurus izin usaha mandiri dengan cepat dan jelas, tapi alurnya membingungkan saat dilempar dari aplikasi ke web, ditambah lampiran aturan PDF-nya tidak bisa dibuka sama sekali."*
+Berdasarkan hasil observasi (*UX Detective*), wawancara pengguna (*User Interview* U1–U5), pemetaan empati (*Empathy Map*), dan *User Journey Map* pada **Worksheet 1–7**, ditemukan permasalahan utama:
 
-### Goals
-1. Menyelesaikan penerbitan Nomor Induk Berusaha (NIB) secara mandiri, cepat, dan sesuai ketentuan hukum.
-2. Membaca dan memahami dokumen regulasi resmi secara lengkap melalui berkas lampiran PDF yang tersedia di aplikasi.
+1. Lampiran dokumen regulasi berformat PDF pada halaman detail regulasi tidak dapat dibuka dan hanya menampilkan pesan error teknis (`403 : Authentication failed`).  
+2. Pengguna tidak dapat membaca rincian persyaratan perizinan dan standar KBLI yang tersimpan di dalam dokumen lampiran PDF tersebut.  
+3. Tidak tersedia pilihan alternatif yang jelas untuk mengunduh dokumen atau membukanya melalui aplikasi pembaca PDF lain ketika penampil internal mengalami kegagalan.  
+4. Pesan kesalahan yang muncul menggunakan istilah teknis yang sulit dipahami pengguna awam dan tidak memberikan panduan tindakan selanjutnya.  
+5. Informasi identitas nama dokumen, ukuran berkas, dan format file (`PDF`) pada daftar lampiran belum ditampilkan secara jelas sebelum pengguna memilih dokumen.
 
-### Pain Points
-1. Berkas lampiran PDF regulasi tidak dapat terbuka (`403: Authentication failed`) sehingga kehilangan informasi penting mengenai syarat perizinan.
-2. Tidak adanya petunjuk yang jelas atau opsi alternatif ketika dokumen gagal ditampilkan secara langsung.
-3. Identitas dan format berkas lampiran pada halaman detail regulasi kurang informatif sebelum diklik.
+### **Problem Statement**
 
-### Needs
-1. Penampil dokumen PDF terintegrasi (*In-App PDF Viewer*) yang stabil untuk membaca berkas regulasi kapan saja.
-2. Alternatif akses untuk mengunduh dokumen PDF atau membukanya melalui aplikasi pembaca PDF lain di perangkat.
-3. Pesan kesalahan dengan bahasa sederhana yang mudah dipahami disertai pilihan tindakan pemulihan (*Coba Lagi* atau *Unduh*).
-4. Informasi nama dan format dokumen (`PDF`) yang jelas sebelum pengguna memilih lampiran.
+Pelaku usaha yang menggunakan aplikasi OSS Indonesia untuk mengakses layanan perizinan berusaha secara mandiri membutuhkan akses terhadap informasi regulasi yang tersedia pada aplikasi, tetapi mengalami hambatan ketika file lampiran regulasi berformat PDF tidak dapat dibuka atau ditampilkan setelah dipilih pada halaman detail regulasi, sehingga pengguna tidak dapat memperoleh informasi yang terdapat dalam dokumen dan proses pencarian maupun pemahaman informasi regulasi menjadi terganggu.
 
 ---
 
-## 4. Product Goals & Success Metrics (Worksheet 8)
+## **3\. User Persona**
 
-### 4.1 Product Goals
-1. Memastikan pengguna dapat membuka dan membaca lampiran regulasi berformat PDF secara langsung pada halaman detail regulasi (**UX-01**).
-2. Menyediakan jalur alternatif pengunduhan dan pembukaan dokumen di aplikasi pembaca PDF eksternal (**UX-02**).
-3. Menyajikan pesan kesalahan yang ramah pengguna (*human-readable error message*) serta opsi pemulihan saat gagal memuat dokumen (**UX-03**).
-4. Menampilkan identitas nama dokumen dan format file (`PDF`) secara jelas pada daftar lampiran regulasi (**UX-04**).
+**Nama:** Yuda (nama samaran)  
+**Usia:** 21 tahun  
+**Pekerjaan:** Mahasiswa yang buka usaha di rumah
 
-### 4.2 Success Metrics (Target Pengujian Usability - Worksheet 8)
+### **Karakteristik**
 
-| Kode UX | Indikator Keberhasilan Pengujian | Target Pengujian | Prioritas |
-| :--- | :--- | :--- | :--- |
-| **UX-01** | Peserta dapat membuka dan membaca dokumen lampiran PDF secara langsung tanpa bantuan | **Minimal 4 dari 5 peserta (≥ 80%)** | **P1 – Tinggi** |
-| **UX-02** | Peserta dapat menemukan dan menggunakan pilihan unduh / alternatif akses dokumen tanpa bantuan | **Minimal 4 dari 5 peserta (≥ 80%)** | **P2 – Sedang** |
-| **UX-03** | Peserta dapat memahami pesan kesalahan ketika PDF gagal dibuka dan menentukan tindakan selanjutnya | **Minimal 4 dari 5 peserta (≥ 80%)** | **P2 – Sedang** |
-| **UX-04** | Peserta dapat mengidentifikasi nama dan format dokumen (`PDF`) yang tepat sebelum membuka lampiran tanpa bantuan | **Minimal 4 dari 5 peserta (≥ 80%)** | **P3 – Rendah** |
+* Mengakses layanan OSS Indonesia melalui aplikasi mobile di ponsel pintar dan laptop di sela-sela mengelola operasional usaha.  
+* Berdedikasi melegalkan izin usahanya (NIB) secara resmi dan mandiri demi memangkas birokrasi serta biaya.  
+* Memiliki keterbatasan waktu luang dan pemahaman teknis terkait istilah sistem maupun regulasi hukum.  
+* Mengandalkan dokumen lampiran regulasi di halaman detail regulasi untuk mencocokkan kode KBLI dan persyaratan teknis usaha.
 
----
+### **Goals**
 
-## 5. Pemetaan Insight → Need → Requirement (Worksheet 8)
+* Menyelesaikan penerbitan Nomor Induk Berusaha (NIB) secara mandiri, cepat, dan sesuai ketentuan hukum.  
+* Membaca dan memahami dokumen regulasi resmi secara lengkap melalui berkas lampiran PDF yang tersedia di aplikasi.  
+* Memperoleh kepastian legalitas hukum bagi usaha yang dirintis agar dapat mengakses fasilitas pembiayaan dan kemitraan resmi secara aman.
 
-| ID | Research Insight | User Need | Functional Requirement | UX Requirement & Prioritas |
-| :--- | :--- | :--- | :--- | :--- |
-| **REQ-01** (`UX-01`) | Berdasarkan wawancara U5 pada Worksheet 5, pengguna mencoba membuka lampiran regulasi berformat PDF pada halaman detail regulasi, tetapi dokumen tersebut tidak dapat dibuka. | Pengguna membutuhkan akses untuk membuka dan membaca lampiran PDF secara langsung tanpa mengalami kendala. | Sistem harus menyediakan fungsi untuk membuka dan menampilkan dokumen PDF secara langsung (*In-App PDF Viewer*) pada halaman detail regulasi. | Pengguna dapat membuka dan membaca dokumen PDF dengan mudah. Target: minimal 4 dari 5 peserta dapat membuka dokumen tanpa bantuan. (**P1 – Tinggi**) |
-| **REQ-02** (`UX-02`) | Worksheet 3 dan Worksheet 5 menunjukkan bahwa kegagalan membuka PDF menyebabkan pengguna tidak memperoleh informasi regulasi. Worksheet 6 mencatat harapan agar PDF dapat dibuka atau diunduh dengan stabil. | Pengguna membutuhkan alternatif akses agar tetap dapat memperoleh dokumen ketika PDF tidak dapat ditampilkan secara langsung. | Sistem harus menyediakan pilihan untuk mengunduh dokumen PDF ke perangkat atau membukanya melalui aplikasi pembaca PDF eksternal. | Pengguna dapat menemukan dan menggunakan alternatif akses dokumen dengan mudah. Target: minimal 4 dari 5 peserta menemukan pilihan unduh tanpa bantuan. (**P2 – Sedang**) |
-| **REQ-03** (`UX-03`) | Pada Worksheet 3 terdapat asumsi pengguna butuh petunjuk saat lampiran gagal dibuka. Worksheet 7 menunjukkan tindakan setelah kegagalan belum terfasilitasi dengan jelas. | Pengguna membutuhkan informasi yang jelas mengenai kondisi ketika dokumen gagal dibuka serta tindakan yang dapat dilakukan selanjutnya. | Sistem harus menampilkan pesan kesalahan berbahasa sederhana ketika PDF gagal dibuka serta menyediakan tombol untuk mencoba kembali (*Coba Lagi*) atau mengunduh dokumen. | Pesan kesalahan harus menggunakan bahasa sederhana, mudah dipahami, dan menunjukkan tindakan berikutnya. Target: minimal 4 dari 5 peserta memahami pesan & tindakan lanjutan. (**P2 – Sedang**) |
-| **REQ-04** (`UX-04`) | Pada Worksheet 7, tahap membuka detail regulasi menunjukkan perlunya identitas lampiran yang jelas agar pengguna mengenali dokumen sebelum membukanya. | Pengguna membutuhkan informasi nama dan format dokumen yang jelas sebelum memilih lampiran regulasi. | Sistem harus menampilkan nama dokumen, ukuran, dan badge format file (`PDF`) pada bagian daftar lampiran di halaman detail regulasi. | Pengguna dapat mengenali dokumen yang akan dibuka berdasarkan nama dan format file dengan mudah. Target: minimal 4 dari 5 peserta mengidentifikasi dokumen tanpa bantuan. (**P3 – Rendah**) |
+### **Pain Points**
+
+* Berkas lampiran PDF regulasi tidak dapat terbuka sama sekali sehingga kehilangan informasi penting mengenai syarat perizinan.  
+* Merasa tidak berdaya (*helpless*), bingung, dan jengkel ketika menekan tautan lampiran PDF berulang kali namun terus gagal terbuka.  
+* Tidak mendapatkan petunjuk pemulihan atau alternatif unduh dokumen yang jelas ketika sistem mengalami kendala.
 
 ---
 
-## 6. Functional Requirements Detail
+## **4\. Product Goals**
 
-### FR-01: Daftar & Pencarian Regulasi OSS Indonesia
-- Menampilkan halaman **Regulasi** yang dapat diakses dari menu **Informasi** pada halaman Beranda aplikasi OSS Indonesia.
-- Pengguna dapat melihat daftar peraturan resmi (termasuk *Peraturan Menteri ESDM Nomor 5 Tahun 2021*, *PP Nomor 5 Tahun 2021*, dan *Peraturan BKPM Nomor 4 Tahun 2021*) serta mencari regulasi berdasarkan kata kunci.
+Produk memiliki tujuan sebagai berikut:
 
-### FR-02: Halaman Detail Regulasi & Identitas Lampiran (Menjawab UX-04)
-- Menampilkan informasi lengkap regulasi: Judul Peraturan, Nomor Peraturan, Sektor/KBLI Terkait, Tanggal Pengundangan, dan Daftar Dokumen Lampiran.
-- Setiap item pada bagian **Daftar Lampiran Regulasi** wajib menampilkan:
-  1. **Nama lengkap dokumen lampiran** (contoh: *Lampiran III Peraturan Menteri Energi dan Sumber Daya Mineral Republik Indonesia Nomor 5 Tahun 2021*).
-  2. **Badge format file eksplisit** (`PDF`) beserta ukuran file (contoh: `2.4 MB`).
-  3. **Tombol Aksi Utama**: Tombol untuk membuka dokumen secara langsung (*Buka PDF*) dan tombol aksi cepat untuk mengunduh dokumen (*Unduh*).
+1. Memastikan pengguna dapat membuka dan membaca lampiran regulasi berformat PDF secara langsung pada halaman detail regulasi (**UX-01 / Prioritas P1**).  
+2. Menyediakan alternatif akses bagi pengguna untuk mengunduh dokumen PDF atau membukanya melalui aplikasi pembaca PDF lain di perangkat (**UX-02 / Prioritas P2**).  
+3. Menampilkan pesan kesalahan dengan bahasa sederhana yang mudah dipahami serta pilihan tindakan pemulihan ketika dokumen gagal dibuka (**UX-03 / Prioritas P2**).  
+4. Memungkinkan pengguna mencoba kembali membuka lampiran PDF langsung dari halaman detail regulasi tanpa mengulangi pencarian dari awal (**UX-03 / Prioritas P2**).  
+5. Menampilkan informasi nama dokumen, ukuran berkas, dan format file (`PDF`) secara jelas sebelum pengguna membuka lampiran regulasi (**UX-04 / Prioritas P3**).
 
-### FR-03: Penampil Dokumen PDF Terintegrasi / In-App PDF Viewer (Menjawab UX-01)
-- Ketika pengguna memilih salah satu lampiran PDF dalam kondisi sistem normal, aplikasi membuka **In-App PDF Viewer** tanpa melempar pengguna keluar dari aplikasi.
-- Menampilkan isi dokumen regulasi secara jelas dan terstruktur (lengkap dengan informasi halaman, nomor peraturan, tabel persyaratan KBLI/NIB, serta tombol unduh di bagian header viewer).
+### **Success Metrics**
 
-### FR-04: Alternatif Unduh & Buka di Pembaca Eksternal (Menjawab UX-02)
-- Menyediakan tombol **Unduh Dokumen PDF** baik pada kartu lampiran, di dalam header *In-App PDF Viewer*, maupun di dalam dialog pemulihan error.
-- Menyediakan opsi **Buka dengan Aplikasi Pembaca PDF Lain** agar pengguna tetap dapat membaca berkas menggunakan aplikasi pembaca PDF bawaan perangkat jika penampil internal mengalami kendala.
-- Menampilkan umpan balik (*feedback* notifikasi/status unduhan berhasil) saat berkas selesai diunduh.
+| Indikator | Target Awal |
+| :---- | :---- |
+| Peserta pengujian dapat membuka dan membaca dokumen lampiran PDF secara langsung tanpa bantuan (**UX-01**) | Minimal 4 dari 5 peserta (≥ 80%) |
+| Peserta pengujian dapat menemukan dan menggunakan pilihan unduh / alternatif akses dokumen tanpa bantuan (**UX-02**) | Minimal 4 dari 5 peserta (≥ 80%) |
+| Peserta pengujian dapat memahami pesan kesalahan saat PDF gagal dibuka dan menentukan tindakan selanjutnya (**UX-03**) | Minimal 4 dari 5 peserta (≥ 80%) |
+| Peserta pengujian dapat mengidentifikasi dokumen yang tepat berdasarkan nama dan format file tanpa bantuan (**UX-04**) | Minimal 4 dari 5 peserta (≥ 80%) |
 
-### FR-05: Penanganan Pesan Kesalahan & Mekanisme Pemulihan / Error Recovery (Menjawab UX-03)
-- Menggantikan pesan error teknis mentah `Terjadi Kesalahan: 403 : Authentication failed` dengan dialog informasi yang menggunakan **bahasa sederhana dan solutif**, menjelaskan bahwa dokumen belum dapat ditampilkan secara langsung saat ini.
-- Menyediakan **dua pilihan tindakan pemulihan langsung** pada layar yang sama (tanpa memaksa pengguna mengulang pencarian dari awal):
-  1. **Tombol "Coba Lagi"**: Memuat ulang dokumen lampiran langsung dari halaman detail regulasi.
-  2. **Tombol "Unduh Dokumen PDF" / "Buka via Pembaca PDF Lain"**: Jalur alternatif agar pengguna tetap memperoleh dokumen regulasi saat itu juga.
-
-### FR-06: Panel Simulasi Pengujian Skenario (Simulator Panel)
-- Menyediakan `SimulatorPanel` interaktif untuk memfasilitasi demonstrasi dan pengujian skenario Moment of Truth (Worksheet 7):
-  - **Mode Normal (200 OK)**: Lampiran PDF langsung terbuka dengan lancar di *In-App PDF Viewer* (UX-01).
-  - **Mode Gagal Memuat / Error 403**: Menyimulasikan kegagalan pembukaan PDF untuk menguji tampilan pesan kesalahan yang jelas (UX-03), fungsi tombol *Coba Lagi* (US-04), serta fungsi alternatif *Unduh Dokumen PDF* (UX-02).
+Catatan: Target merupakan hipotesis awal berdasarkan perumusan kebutuhan UX pada Worksheet 8 dan perlu divalidasi melalui pengujian produk (*Usability Testing*).
 
 ---
 
-## 7. Non-Functional Requirements
+## **5\. Functional Requirements**
 
-- **NFR-01 (Usability & Clarity)**: Seluruh label, badge format `PDF`, dan pesan kesalahan harus menggunakan Bahasa Indonesia yang jelas, bebas jargon kode HTTP teknis pada pesan utama, dan mudah dipahami oleh pelaku usaha awam.
-- **NFR-02 (Responsiveness & Mobile Viewport)**: Antarmuka dirancang dalam bingkai aplikasi mobile OSS Indonesia (rasio layar ponsel pintar modern) yang responsif ketika dibuka di browser desktop maupun perangkat seluler.
-- **NFR-03 (Error Prevention & Recovery)**: Pengguna tidak boleh terjebak pada layar kosong (*dead-end screen*) ketika dokumen gagal dimuat; setiap state error wajib memiliki minimal satu tombol pemulihan aktif.
-- **NFR-04 (Performance)**: Transisi antar-halaman (Beranda -> Regulasi -> Detail Regulasi -> PDF Viewer) berjalan instan tanpa *reload* halaman penuh.
+### **FR-01: Penampil Dokumen PDF Terintegrasi / In-App PDF Viewer (UX-01 — Prioritas 1)**
+
+Sistem harus menyediakan fungsi untuk membuka dan menampilkan dokumen lampiran berformat PDF secara langsung pada halaman detail regulasi.
+
+Ketentuan:
+
+* Menampilkan isi dokumen lampiran PDF di dalam antarmuka aplikasi (*In-App PDF Viewer*) tanpa mengalihkan pengguna keluar dari aplikasi.  
+* Menampilkan judul lampiran, nama file, nomor halaman, dan keseluruhan isi pasal/ketentuan regulasi secara jelas.  
+* Menyediakan kontrol pembacaan dokumen (seperti navigasi halaman, pencarian kata kunci di dalam dokumen, dan pengatur ukuran teks/zoom).  
+* Menyediakan tombol kembali ke halaman detail regulasi tanpa menghilangkan konteks halaman sebelumnya.
+
+### **FR-02: Alternatif Unduh & Akses Pembaca PDF Eksternal (UX-02 — Prioritas 2)**
+
+Sistem harus menyediakan pilihan alternatif untuk mengunduh dokumen PDF atau membukanya melalui aplikasi pembaca PDF pada perangkat pengguna.
+
+Ketentuan:
+
+* Menyediakan tombol **Unduh** langsung pada setiap kartu lampiran di halaman detail regulasi.  
+* Menyediakan tombol **Unduh PDF** dan **Buka di Aplikasi Pembaca PDF Lain** di dalam layar penampil PDF maupun pada dialog pemulihan kendala.  
+* Menampilkan notifikasi umpan balik (*feedback*) yang mengonfirmasi bahwa berkas PDF berhasil diunduh ke perangkat.  
+* Menyediakan opsi membaca ringkasan inti persyaratan regulasi apabila dokumen PDF sedang tidak dapat ditampilkan secara langsung.
+
+### **FR-03: Pesan Kesalahan & Mekanisme Pemulihan / Error Recovery (UX-03 — Prioritas 2)**
+
+Sistem harus menampilkan pesan kesalahan yang jelas ketika PDF gagal dibuka serta menyediakan pilihan untuk mencoba kembali atau mengunduh dokumen.
+
+Ketentuan:
+
+* Pesan kesalahan wajib menggunakan bahasa Indonesia yang sederhana, sopan, dan mudah dipahami oleh pelaku usaha (tidak hanya menampilkan kode teknis `403 : Authentication failed`).  
+* Pesan kesalahan harus menjelaskan kondisi kendala yang terjadi serta langkah tindakan yang dapat dipilih pengguna.  
+* Menyediakan tombol **Coba Lagi** untuk memuat ulang lampiran PDF langsung dari halaman detail regulasi tanpa harus mengulangi pencarian regulasi dari awal.  
+* Menyediakan tombol **Unduh Dokumen PDF** dan **Buka Melalui Aplikasi Pembaca PDF Lain** langsung di dalam dialog pesan kesalahan.
+
+### **FR-04: Identitas Nama & Format Dokumen Lampiran (UX-04 — Prioritas 3)**
+
+Sistem harus menampilkan nama dokumen dan format file pada bagian lampiran di halaman detail regulasi.
+
+Ketentuan:
+
+* Setiap item lampiran wajib menampilkan:
+  * Nama resmi dokumen lampiran (contoh: *Lampiran III Peraturan Menteri Energi dan Sumber Daya Mineral Republik Indonesia Nomor 5 Tahun 2021*).  
+  * Nama berkas dokumen (`.pdf`).  
+  * Label/badge format file (**`PDF`**) yang terlihat jelas.  
+  * Informasi ukuran berkas (contoh: `2.4 MB`) dan jumlah halaman.  
+* Informasi identitas dokumen harus tampil sebelum pengguna menekan tombol buka atau unduh.
+
+### **FR-05: Daftar & Detail Informasi Regulasi Perizinan**
+
+Sistem harus menyediakan halaman daftar regulasi dan halaman detail regulasi pada menu **Informasi -> Regulasi**.
+
+Ketentuan:
+
+* Menampilkan informasi utama regulasi yang mencakup Judul Peraturan, Nomor Peraturan, Sektor Usaha/Kode KBLI, dan Tanggal Pengundangan.  
+* Memungkinkan pengguna mencari atau memfilter regulasi dan daftar lampiran berdasarkan kata kunci.  
+* Menyediakan panel simulasi skenario (*Simulator Panel*) untuk menguji kondisi normal (*PDF Berhasil Dibuka*) dan kondisi gagal memuat (*Moment of Truth Error 403*).
 
 ---
 
-## 8. User Stories (Worksheet 8 Bagian B)
+## **6\. Non-Functional Requirements**
 
-1. **US-01 (Prioritas P1 - UX-01)**
-   > *As a* pengguna aplikasi OSS Indonesia yang membutuhkan informasi regulasi, *I want to* membuka lampiran PDF secara langsung dari halaman detail regulasi, *so that* saya dapat membaca informasi yang dibutuhkan untuk memahami persyaratan perizinan usaha.
+### **NFR-01: Performance**
 
-2. **US-02 (Prioritas P2 - UX-02)**
-   > *As a* pengguna aplikasi OSS Indonesia, *I want to* mengunduh dokumen PDF atau membukanya melalui aplikasi pembaca PDF lain ketika dokumen tidak dapat ditampilkan secara langsung, *so that* saya tetap dapat memperoleh informasi regulasi yang dibutuhkan.
+* Pembukaan halaman detail regulasi dan daftar lampiran harus dimuat dengan cepat (< 1 detik pada jaringan normal).  
+* Proses mencoba kembali (*Coba Lagi*) pembukaan dokumen tidak boleh memuat ulang keseluruhan aplikasi dari halaman awal.
 
-3. **US-03 (Prioritas P2 - UX-03)**
-   > *As a* pengguna aplikasi OSS Indonesia, *I want to* mendapatkan pesan yang jelas ketika lampiran PDF gagal dibuka, *so that* saya dapat memahami kendala yang terjadi dan mengetahui tindakan selanjutnya.
+### **NFR-02: Usability**
 
-4. **US-04 (Prioritas P2 - UX-03)**
-   > *As a* pengguna aplikasi OSS Indonesia, *I want to* mencoba kembali membuka lampiran PDF dari halaman detail regulasi, *so that* saya tidak perlu mengulangi proses pencarian dokumen dari awal.
+* Antarmuka daftar lampiran dan penampil PDF harus mudah digunakan oleh pelaku usaha mandiri tanpa memerlukan panduan teknis khusus.  
+* Pesan kesalahan harus mematuhi prinsip heuristik *Help users recognize, diagnose, and recover from errors* dengan bahasa yang sederhana dan solutif.
 
-5. **US-05 (Prioritas P3 - UX-04)**
-   > *As a* pengguna aplikasi OSS Indonesia, *I want to* melihat nama dan format dokumen pada bagian lampiran regulasi, *so that* saya dapat mengenali dokumen yang sesuai sebelum membukanya.
+### **NFR-03: Responsive**
 
----
+* Sistem dirancang dengan tata letak aplikasi mobile OSS Indonesia yang responsif dan proporsional baik saat diakses melalui smartphone maupun browser desktop.  
+* Area baca dokumen PDF harus menyesuaikan lebar layar perangkat agar teks regulasi tetap terbaca dengan jelas.
 
-## 9. Scope
+### **NFR-04: Reliability**
 
-### In Scope
-- Halaman Beranda OSS Indonesia & Navigasi menuju menu Informasi Regulasi.
-- Halaman Daftar Regulasi dengan pencarian peraturan.
-- Halaman Detail Regulasi (*Peraturan Menteri ESDM No. 5 Tahun 2021*, dll.) dengan daftar lampiran beridentitas lengkap (nama dokumen, badge format `PDF`, ukuran berkas).
-- Komponen *In-App PDF Viewer* untuk membaca isi lampiran regulasi secara langsung.
-- Fitur unduh dokumen PDF dan opsi buka di aplikasi pembaca PDF eksternal.
-- Komponen *Error Recovery Modal* dengan pesan berbahasa sederhana, tombol *Coba Lagi*, dan tombol *Unduh PDF*.
-- Komponen *Simulator Panel* untuk mendemonstrasikan kondisi Normal vs kondisi Error pada Moment of Truth.
+* Sistem harus tetap menyediakan jalur akses alternatif (unduh berkas, pembaca eksternal, atau penyimpanan cache offline) ketika layanan penampil PDF langsung mengalami gangguan.  
+* Pengguna tidak boleh terjebak pada layar kosong (*dead-end UI*) saat terjadi kegagalan pemuatan berkas.
 
-### Out of Scope
-- Integrasi backend produksi ke server database Kementerian Investasi/BKPM.
-- Proses pengajuan formulir NIB lintas website eksternal dan pemilihan peta koordinat (yang diidentifikasi pada Worksheet 6 & 8 sebagai luar cakupan fokus utama penelitian).
+### **NFR-05: Security**
+
+* Berkas lampiran regulasi publik pada menu Informasi Regulasi harus dapat diakses oleh pengguna tanpa gagal akibat kedaluwarsa token autentikasi internal (`403 : Authentication failed`).  
+* Unduhan dokumen harus menjamin keutuhan nama dan format berkas resmi `.pdf`.
 
 ---
 
-## 10. Product Acceptance Criteria
+## **7\. Business Rules**
 
-1. **[AC-01 / UX-04]** Setiap item lampiran pada halaman detail regulasi menampilkan nama lengkap dokumen dan badge format file `PDF` secara jelas sebelum diklik.
-2. **[AC-02 / UX-01]** Pada skenario normal, menekan dokumen lampiran langsung membuka *In-App PDF Viewer* yang menampilkan isi aturan regulasi tanpa error.
-3. **[AC-03 / UX-02]** Pengguna dapat mengunduh dokumen PDF atau memilih membukanya dengan pembaca PDF lain baik dari halaman detail regulasi, dari dalam viewer, maupun saat terjadi error.
-4. **[AC-04 / UX-03]** Pada skenario gagal memuat dokumen, sistem menampilkan pesan kesalahan dengan bahasa sederhana yang mudah dipahami (bukan sekadar pesan kaku `403 : Authentication failed`) beserta penjelasan penyebab singkat.
-5. **[AC-05 / US-04]** Pengguna dapat menekan tombol **Coba Lagi** dari halaman detail regulasi tanpa harus mengulangi pencarian regulasi dari halaman awal.
+1. Setiap regulasi yang dipublikasikan pada menu Informasi Regulasi wajib memiliki judul peraturan, nomor peraturan, tanggal pengundangan, dan minimal satu dokumen lampiran resmi.  
+2. Setiap dokumen lampiran pada halaman detail regulasi wajib mencantumkan identitas nama dokumen, ukuran berkas, dan label format file (`PDF`).  
+3. Seluruh lampiran regulasi publik pada halaman Informasi Regulasi dapat dibuka dan diunduh oleh pelaku usaha tanpa dihalangi error autentikasi `403`.  
+4. Apabila penampil PDF langsung (*In-App PDF Viewer*) gagal memuat dokumen dalam batas waktu tertentu atau mengalami gangguan server, sistem wajib otomatis menampilkan dialog pemulihan kendala (*Error Recovery Modal*).  
+5. Dialog pemulihan kendala wajib menyediakan minimal dua opsi tindakan aktif, yaitu mencoba kembali (*Coba Lagi*) dan mengunduh dokumen (*Unduh PDF*).  
+6. Tindakan **Coba Lagi** harus dieksekusi langsung pada dokumen yang dipilih di halaman detail regulasi tanpa mengembalikan pengguna ke halaman beranda atau daftar pencarian awal.  
+7. Dokumen lampiran yang telah berhasil dibuka atau diunduh dapat disimpan pada penyimpanan lokal sementara (*offline cache*) selama sesi berlangsung agar pengguna tidak perlu mengunduh ulang berkas yang sama.  
+8. Urutan prioritas penanganan fitur mengacu pada matriks prioritas **Worksheet 8**, yaitu **P1 (UX-01)** sebagai prioritas tertinggi, diikuti **P2 (UX-02 & UX-03)** sebagai kebutuhan pendukung pemulihan, dan **P3 (UX-04)** sebagai penguat kejelasan informasi.
 
 ---
-**End of PRD v1.0.0 — Nifail Eka Nafie (202310370311344)**
+
+## **8\. User Stories**
+
+**US-01: Membuka Lampiran PDF Secara Langsung (UX-01 — Prioritas P1)**
+
+Sebagai pengguna aplikasi OSS Indonesia yang membutuhkan informasi regulasi, saya ingin membuka lampiran PDF secara langsung dari halaman detail regulasi agar saya dapat membaca informasi yang dibutuhkan untuk memahami persyaratan perizinan usaha.  
+*(As a pengguna aplikasi OSS Indonesia yang membutuhkan informasi regulasi, I want to membuka lampiran PDF secara langsung dari halaman detail regulasi, so that saya dapat membaca informasi yang dibutuhkan untuk memahami persyaratan perizinan usaha.)*
+
+**US-02: Mengunduh atau Membuka Dokumen Melalui Pembaca PDF Lain (UX-02 — Prioritas P2)**
+
+Sebagai pengguna aplikasi OSS Indonesia, saya ingin mengunduh dokumen PDF atau membukanya melalui aplikasi pembaca PDF lain ketika dokumen tidak dapat ditampilkan secara langsung agar saya tetap dapat memperoleh informasi regulasi yang dibutuhkan.  
+*(As a pengguna aplikasi OSS Indonesia, I want to mengunduh dokumen PDF atau membukanya melalui aplikasi pembaca PDF lain ketika dokumen tidak dapat ditampilkan secara langsung, so that saya tetap dapat memperoleh informasi regulasi yang dibutuhkan.)*
+
+**US-03: Mendapatkan Pesan Kesalahan yang Jelas (UX-03 — Prioritas P2)**
+
+Sebagai pengguna aplikasi OSS Indonesia, saya ingin mendapatkan pesan yang jelas ketika lampiran PDF gagal dibuka agar saya dapat memahami kendala yang terjadi dan mengetahui tindakan selanjutnya.  
+*(As a pengguna aplikasi OSS Indonesia, I want to mendapatkan pesan yang jelas ketika lampiran PDF gagal dibuka, so that saya dapat memahami kendala yang terjadi dan mengetahui tindakan selanjutnya.)*
+
+**US-04: Mencoba Kembali Membuka Lampiran Tanpa Mengulang dari Awal (UX-03 — Prioritas P2)**
+
+Sebagai pengguna aplikasi OSS Indonesia, saya ingin mencoba kembali membuka lampiran PDF dari halaman detail regulasi agar saya tidak perlu mengulangi proses pencarian dokumen dari awal.  
+*(As a pengguna aplikasi OSS Indonesia, I want to mencoba kembali membuka lampiran PDF dari halaman detail regulasi, so that saya tidak perlu mengulangi proses pencarian dokumen dari awal.)*
+
+**US-05: Melihat Nama dan Format Dokumen Lampiran (UX-04 — Prioritas P3)**
+
+Sebagai pengguna aplikasi OSS Indonesia, saya ingin melihat nama dan format dokumen pada bagian lampiran regulasi agar saya dapat mengenali dokumen yang sesuai sebelum membukanya.  
+*(As a pengguna aplikasi OSS Indonesia, I want to melihat nama dan format dokumen pada bagian lampiran regulasi, so that saya dapat mengenali dokumen yang sesuai sebelum membukanya.)*
+
+---
+
+## **9\. Scope**
+
+### **In Scope**
+
+* Halaman Beranda OSS Indonesia dengan navigasi menuju menu **Informasi -> Regulasi**.  
+* Halaman Daftar Regulasi Perizinan dengan fitur pencarian peraturan.  
+* Halaman Detail Regulasi (studi kasus utama: *Peraturan Menteri ESDM Nomor 5 Tahun 2021* beserta *Lampiran I, II, III, IV* dan *Abstrak*).  
+* Kartu daftar lampiran dengan identitas lengkap: nama dokumen, nama berkas, badge format `PDF`, ukuran berkas, dan jumlah halaman (**UX-04**).  
+* Penampil dokumen PDF terintegrasi (*In-App PDF Viewer*) untuk membaca isi regulasi secara langsung (**UX-01**).  
+* Fitur unduh dokumen PDF dan opsi pembukaan melalui aplikasi pembaca PDF eksternal (**UX-02**).  
+* Dialog pesan kesalahan berbahasa sederhana beserta tombol **Coba Lagi** dan **Unduh Dokumen PDF** ketika terjadi kegagalan pemuatan berkas (**UX-03**).  
+* Panel simulasi pengujian (*Simulator Panel*) untuk mendemonstrasikan skenario *Moment of Truth* (Normal vs Gagal Memuat / Error 403).
+
+### **Out of Scope**
+
+* Integrasi pengajuan formulir NIB lintas platform dari aplikasi mobile ke website eksternal OSS.  
+* Perbaikan fitur penentuan titik koordinat lokasi usaha pada peta digital.  
+* Perbaikan mekanisme pemulihan lupa akun / pembatasan *rate limit* login.  
+* Perbaikan crash pada fitur *Floating Button* layanan Tatap Muka.
+
+---
+
+## **10\. Assumptions & Dependencies**
+
+### **Assumptions**
+
+* Pelaku usaha mengakses menu **Informasi -> Regulasi** melalui perangkat smartphone yang terhubung ke jaringan internet.  
+* Dokumen regulasi resmi pemerintah disediakan dalam format standar `PDF`.  
+* Perangkat pengguna mendukung pengunduhan berkas lokal atau memiliki aplikasi pembaca PDF bawaan untuk opsi pembukaan eksternal.  
+* Karakteristik persona dan alur tindakan pasca-kegagalan yang dirumuskan dari observasi ulasan serta wawancara responden (U1–U5) digunakan sebagai dasar desain solusi dan divalidasi melalui prototipe interaktif.
+
+### **Dependencies**
+
+* Layanan penyimpanan dan distribusi dokumen regulasi (*Document Storage / CDN*) aplikasi OSS Indonesia.  
+* Komponen *In-App Document Viewer* pada aplikasi mobile OSS Indonesia.  
+* Mekanisme manajemen unduhan berkas (*Browser / Mobile File Download API*).  
+* Penyimpanan lokal sementara (*Client-side Cache*) untuk mendukung pemuatan ulang cepat dan akses dokumen tersimpan.
+
+---
+
+## **11\. Expected Deliverables**
+
+Implementasi fitur harus menghasilkan:
+
+1. Halaman Beranda aplikasi mobile OSS Indonesia dengan akses menuju menu Informasi Regulasi.  
+2. Halaman Daftar Regulasi Perizinan dengan fitur pencarian peraturan.  
+3. Halaman Detail Regulasi yang memuat informasi peraturan dan daftar seluruh berkas lampiran.  
+4. Komponen Kartu Lampiran Regulasi (`AttachmentCard`) yang menampilkan nama dokumen, ukuran berkas, dan badge format `PDF` (**UX-04**).  
+5. Komponen Penampil Dokumen PDF Terintegrasi (`DocumentPreviewModal` / *In-App PDF Viewer*) untuk membaca isi dokumen secara langsung (**UX-01**).  
+6. Mekanisme pengunduhan berkas PDF (`triggerPdfDownload`) dan opsi pembukaan di aplikasi pembaca PDF lain (**UX-02**).  
+7. Komponen Dialog Pemulihan Kesalahan (`ErrorRecoveryModal`) dengan pesan berbahasa sederhana, tombol **Coba Lagi**, dan tombol **Unduh PDF** (**UX-03**).  
+8. Komponen Panel Simulasi Pengujian (`SimulatorPanel`) untuk menguji skenario *Moment of Truth* (Normal vs Error 403).
+
+---
+
+## **12\. Product Acceptance Criteria**
+
+Fitur dinyatakan memenuhi kebutuhan produk apabila:
+
+1. Pengguna dapat melihat nama dokumen, ukuran berkas, dan badge format file `PDF` secara jelas pada setiap item lampiran di halaman detail regulasi sebelum membukanya (**UX-04 / US-05**).  
+2. Pengguna dapat menekan tombol **Buka Lampiran PDF** dan membaca seluruh halaman isi dokumen regulasi secara langsung di dalam aplikasi pada kondisi normal (**UX-01 / US-01**).  
+3. Pengguna dapat mengunduh dokumen lampiran PDF langsung dari daftar lampiran maupun dari dalam layar penampil PDF (**UX-02 / US-02**).  
+4. Pengguna dapat memilih opsi untuk membuka dokumen melalui aplikasi pembaca PDF lain ketika penampil langsung mengalami kendala (**UX-02 / US-02**).  
+5. Ketika terjadi kegagalan pemuatan dokumen (seperti kondisi error `403` pada *Moment of Truth* Worksheet 7), sistem menampilkan pesan kesalahan dengan bahasa sederhana yang mudah dipahami, bukan sekadar kode teknis mentah (**UX-03 / US-03**).  
+6. Dialog pesan kesalahan menampilkan pilihan tindakan selanjutnya secara jelas kepada pengguna (**UX-03 / US-03**).  
+7. Pengguna dapat menekan tombol **Coba Lagi** pada dialog kesalahan untuk memuat ulang dokumen langsung dari halaman detail regulasi tanpa harus mengulangi pencarian regulasi dari halaman awal (**UX-03 / US-04**).  
+8. Pengguna tetap dapat mengunduh dokumen PDF langsung dari dalam dialog pesan kesalahan ketika pembukaan langsung gagal (**UX-02 & UX-03**).  
+9. Fitur dapat dijalankan dan diuji secara responsif melalui tampilan mobile maupun browser desktop menggunakan *Simulator Panel*.
+
+---
+
+**End of PRD v1.0**
