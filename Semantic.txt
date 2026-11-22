@@ -1,0 +1,41 @@
+================================================================================
+SEMANTIC VERSIONING & CONVENTIONAL COMMITS LOG — OSS INDONESIA MOBILE (PRD ONLY)
+================================================================================
+Nama Mahasiswa : Nifail Eka Nafie
+NIM            : 202310370311344
+Kelas          : Rekayasa Interaksi C
+Studi Kasus    : Aplikasi Mobile OSS Indonesia — Fitur Akses Lampiran Regulasi PDF
+Pendekatan     : Vibe Code — Hanya PRD (Worksheet 12)
+================================================================================
+
+1. ATURAN SEMANTIC COMMIT
+-------------------------
+Setiap perubahan kode dan dokumentasi pada repositori ini menggunakan aturan
+Conventional Commits:
+  <type>(<scope>): <description>
+
+Type:
+- feat     : Fitur baru yang menjawab User Need & UX Requirement (UX-01..UX-04)
+- fix      : Perbaikan bug/hambatan UX pada Moment of Truth (MOT)
+- docs     : Dokumentasi PRD, README, CHANGELOG, dan panduan kontribusi
+- style    : Penyesuaian visual UI aplikasi OSS Indonesia
+- refactor : Penyempurnaan struktur komponen React
+- chore    : Setup project Vite, linter Oxlint, dan Git Hooks
+
+2. PEMETAAN COMMIT TERHADAP KEBUTUHAN UX (WORKSHEET 8)
+------------------------------------------------------
+- [chore(repo)]             : Inisialisasi struktur repositori, git hooks, dan konfigurasi Vite + React.
+- [docs(prd)]               : Penyusunan Product Requirements Document (PRD.txt & PRD.md) dari Worksheet 1-8.
+- [feat(attachment-list)]   : Implementasi UX-04 (P3 - Rendah) & US-05 — Menampilkan identitas nama dokumen,
+                              ukuran berkas, dan badge format file (PDF) secara jelas pada halaman detail regulasi.
+- [feat(pdf-viewer)]        : Implementasi UX-01 (P1 - Tinggi) & US-01 — Menyediakan penampil dokumen PDF
+                              terintegrasi (In-App PDF Viewer) agar pengguna dapat membaca lampiran regulasi
+                              secara langsung tanpa kendala.
+- [feat(download-fallback)] : Implementasi UX-02 (P2 - Sedang) & US-02 — Menyediakan opsi alternatif untuk
+                              mengunduh dokumen PDF atau membukanya melalui aplikasi pembaca PDF eksternal.
+- [fix(error-recovery)]     : Implementasi UX-03 (P2 - Sedang), US-03 & US-04 — Mengganti pesan error teknis
+                              "403 : Authentication failed" dengan pesan kesalahan berbahasa sederhana yang
+                              mudah dipahami, dilengkapi tombol "Coba Lagi" dan "Unduh Dokumen".
+- [feat(simulator)]         : Implementasi SimulatorPanel untuk menguji skenario Normal (200 OK) dan
+                              Skenario Gagal Memuat PDF (403 Error) sesuai Moment of Truth pada Worksheet 7.
+- [docs(changelog)]         : Penyusunan CHANGELOG.md dan dokumentasi hasil akhir Vibe Code Hanya PRD.
