@@ -1,0 +1,157 @@
+================================================================================
+PRODUCT REQUIREMENTS DOCUMENT (PRD)
+FITUR: PENAMPIL DOKUMEN LAMPIRAN REGULASI TERINTEGRASI & PEMULIHAN KENDALA AKSES
+       PDF PADA APLIKASI MOBILE OSS INDONESIA
+================================================================================
+Versi          : 1.0.0
+Status         : Approved for Implementation (Vibe Coding - Worksheet 12)
+Nama Mahasiswa : Nifail Eka Nafie
+NIM            : 202310370311344
+Kelas          : Rekayasa Interaksi C
+Produk         : Aplikasi Mobile OSS Indonesia (Online Single Submission)
+Fokus Masalah  : Kegagalan Membuka Lampiran Regulasi Berformat PDF (Worksheet 1-8)
+================================================================================
+
+1. PRODUCT OVERVIEW
+-------------------
+1.1 Latar Belakang
+Aplikasi OSS Indonesia digunakan oleh pelaku usaha untuk mengurus perizinan
+berusaha (NIB) dan mencari informasi regulasi secara elektronik. Berdasarkan
+investigasi pada Worksheet 1 s/d Worksheet 8, ditemukan masalah utama pada
+halaman Detail Regulasi (contoh: Peraturan Menteri ESDM Nomor 5 Tahun 2021):
+ketika pengguna memilih file lampiran regulasi berformat PDF, sistem mengalami
+error "Terjadi Kesalahan: 403 : Authentication failed" sehingga dokumen tidak
+dapat dibuka atau ditampilkan.
+
+1.2 Product Vision
+Menyediakan pengalaman membuka, membaca, dan mengunduh lampiran regulasi PDF
+yang stabil, transparan, dan dilengkapi mekanisme pemulihan kendala (error
+recovery) yang jelas pada aplikasi OSS Indonesia.
+
+1.3 Target Pengguna
+- Core User      : Pelaku usaha mandiri yang mengakses aplikasi OSS Indonesia.
+- Secondary User : Petugas layanan bantuan OSS Indonesia.
+- Stakeholder    : Pengelola aplikasi OSS Indonesia (Kementerian Investasi/BKPM).
+
+2. USER PROBLEM & DESIGN CHALLENGE (WORKSHEET 1-7)
+--------------------------------------------------
+2.1 Problem Statement (Worksheet 2)
+Pelaku usaha yang menggunakan aplikasi OSS Indonesia untuk mengakses layanan
+perizinan berusaha secara mandiri membutuhkan akses terhadap informasi regulasi
+yang tersedia pada aplikasi, tetapi mengalami hambatan ketika file lampiran
+regulasi tidak dapat dibuka atau ditampilkan setelah dipilih pada halaman detail
+regulasi, sehingga pengguna tidak dapat memperoleh informasi yang terdapat dalam
+dokumen dan proses pencarian maupun pemahaman informasi regulasi menjadi
+terganggu.
+
+2.2 Kutipan Wawancara Kunci (Worksheet 5 - Responden U5)
+"Aku mencoba membuka lampiran dokumen yang formatnya PDF ... kendalanya,
+lampiran PDF tersebut tidak bisa dibuka." — U5
+
+2.3 Moment of Truth / MOT (Worksheet 7)
+Tahap During: Ketika pengguna menekan tautan lampiran regulasi berformat PDF
+pada halaman detail regulasi, tetapi dokumen tidak dapat dibuka.
+
+2.4 Design Challenge / HMW Terpilih (Worksheet 2)
+"How might we membantu pengguna mengakses file lampiran regulasi so that
+pengguna dapat memperoleh informasi yang dibutuhkan tanpa mengalami hambatan?"
+
+3. USER PERSONA (WORKSHEET 6)
+-----------------------------
+- Nama Persona : Yuda (nama samaran)
+- Umur         : 21 Tahun
+- Pekerjaan    : Mahasiswa yang buka usaha di rumah
+- Kutipan      : "Saya ingin mengurus izin usaha mandiri dengan cepat dan jelas,
+                 tapi alurnya membingungkan saat dilempar dari aplikasi ke web,
+                 ditambah lampiran aturan PDF-nya tidak bisa dibuka sama sekali."
+- Goal         : 1. Menyelesaikan penerbitan NIB secara mandiri dan cepat.
+                 2. Membaca dan memahami dokumen regulasi resmi secara lengkap
+                    melalui berkas lampiran yang tersedia.
+- Pain Point   : Berkas lampiran PDF regulasi tidak dapat terbuka sehingga
+                 kehilangan informasi penting mengenai syarat perizinan.
+- Need         : Penampil dokumen PDF terintegrasi (in-app viewer) yang stabil,
+                 alternatif unduh dokumen, pesan kesalahan yang jelas, dan
+                 identitas dokumen lampiran yang mudah dikenali.
+
+4. PEMETAAN INSIGHT -> NEED -> REQUIREMENT (WORKSHEET 8)
+--------------------------------------------------------
+[UX-01 | Prioritas P1 - Tinggi]
+- Research Insight      : Wawancara U5 (Worksheet 5) menunjukkan lampiran PDF
+                          pada halaman detail regulasi tidak dapat dibuka.
+- User Need             : Pengguna membutuhkan akses untuk membuka dan membaca
+                          lampiran PDF secara langsung tanpa kendala.
+- Functional Requirement: Sistem harus menyediakan fungsi untuk membuka dan
+                          menampilkan dokumen PDF pada halaman detail regulasi.
+- UX Requirement        : Pengguna dapat membuka dan membaca dokumen PDF dengan
+                          mudah. Target pengujian: minimal 4 dari 5 peserta
+                          dapat membuka dokumen tanpa bantuan.
+
+[UX-02 | Prioritas P2 - Sedang]
+- Research Insight      : Worksheet 3, 5, dan 6 menunjukkan perlunya alternatif
+                          agar dokumen PDF tetap dapat dibuka atau diunduh.
+- User Need             : Pengguna membutuhkan alternatif akses agar tetap dapat
+                          memperoleh dokumen ketika PDF gagal ditampilkan.
+- Functional Requirement: Sistem harus menyediakan pilihan untuk mengunduh
+                          dokumen PDF atau membukanya melalui aplikasi pembaca
+                          PDF pada perangkat pengguna.
+- UX Requirement        : Pengguna dapat menemukan dan menggunakan alternatif
+                          akses dokumen dengan mudah. Target pengujian: minimal
+                          4 dari 5 peserta menemukan pilihan unduh tanpa bantuan.
+
+[UX-03 | Prioritas P2 - Sedang]
+- Research Insight      : Worksheet 3 dan 7 menunjukkan pengguna membutuhkan
+                          petunjuk dan tindakan lanjutan saat PDF gagal dibuka.
+- User Need             : Pengguna membutuhkan informasi jelas mengenai kondisi
+                          ketika dokumen gagal dibuka serta tindakan selanjutnya.
+- Functional Requirement: Sistem harus menampilkan pesan kesalahan ketika PDF
+                          gagal dibuka serta menyediakan pilihan untuk mencoba
+                          kembali atau mengunduh dokumen.
+- UX Requirement        : Pesan kesalahan harus menggunakan bahasa sederhana,
+                          mudah dipahami, dan menunjukkan tindakan berikutnya.
+                          Target pengujian: minimal 4 dari 5 peserta memahami
+                          pesan dan menentukan tindakan selanjutnya.
+
+[UX-04 | Prioritas P3 - Rendah]
+- Research Insight      : Worksheet 7 menunjukkan perlunya identitas lampiran
+                          yang jelas pada tahap membuka detail regulasi.
+- User Need             : Pengguna membutuhkan informasi nama dan format dokumen
+                          yang jelas sebelum memilih lampiran regulasi.
+- Functional Requirement: Sistem harus menampilkan nama dokumen dan format file
+                          pada bagian lampiran di halaman detail regulasi.
+- UX Requirement        : Pengguna dapat mengenali dokumen yang akan dibuka
+                          berdasarkan nama dan format file dengan mudah.
+                          Target pengujian: minimal 4 dari 5 peserta dapat
+                          mengidentifikasi dokumen yang tepat tanpa bantuan.
+
+5. USER STORIES (WORKSHEET 8 BAGIAN B)
+--------------------------------------
+1. US-01: As a pengguna aplikasi OSS Indonesia yang membutuhkan informasi
+   regulasi, I want to membuka lampiran PDF secara langsung dari halaman detail
+   regulasi, so that saya dapat membaca informasi yang dibutuhkan untuk
+   memahami persyaratan perizinan usaha.
+2. US-02: As a pengguna aplikasi OSS Indonesia, I want to mengunduh dokumen PDF
+   atau membukanya melalui aplikasi pembaca PDF lain ketika dokumen tidak dapat
+   ditampilkan secara langsung, so that saya tetap dapat memperoleh informasi
+   regulasi yang dibutuhkan.
+3. US-03: As a pengguna aplikasi OSS Indonesia, I want to mendapatkan pesan yang
+   jelas ketika lampiran PDF gagal dibuka, so that saya dapat memahami kendala
+   yang terjadi dan mengetahui tindakan selanjutnya.
+4. US-04: As a pengguna aplikasi OSS Indonesia, I want to mencoba kembali
+   membuka lampiran PDF dari halaman detail regulasi, so that saya tidak perlu
+   mengulangi proses pencarian dokumen dari awal.
+5. US-05: As a pengguna aplikasi OSS Indonesia, I want to melihat nama dan
+   format dokumen pada bagian lampiran regulasi, so that saya dapat mengenali
+   dokumen yang sesuai sebelum membukanya.
+
+6. ACCEPTANCE CRITERIA
+----------------------
+1. Halaman detail regulasi menampilkan nama dokumen, ukuran berkas, dan badge
+   format file "PDF" secara jelas pada setiap item lampiran (UX-04 / US-05).
+2. Pengguna dapat membuka dan membaca isi dokumen lampiran PDF secara langsung
+   melalui In-App PDF Viewer pada halaman detail regulasi (UX-01 / US-01).
+3. Pengguna dapat mengunduh dokumen PDF atau membukanya melalui aplikasi pembaca
+   PDF eksternal (UX-02 / US-02).
+4. Ketika dokumen gagal dibuka, sistem menampilkan pesan kesalahan dengan bahasa
+   sederhana yang mudah dipahami disertai tombol "Coba Lagi" dan tombol
+   "Unduh Dokumen PDF" (UX-03 / US-03 / US-04).
+================================================================================
