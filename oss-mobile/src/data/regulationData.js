@@ -1,4 +1,4 @@
-// Data Regulasi & Lampiran PDF Aplikasi OSS Indonesia
+// Data Regulasi & Lampiran PDF Aplikasi OSS Indonesia (Edisi PRD + Skill)
 // Disusun berdasarkan Bukti Screenshot Worksheet 1 - 8 (Nifail Eka Nafie - 202310370311344)
 
 export const PERSONA_DATA = {
@@ -34,6 +34,12 @@ export const REGULATIONS_DATA = [
         pagesCount: 3,
         category: 'Standar PB UMKU & KBLI',
         isOriginalBugTarget: true,
+        keyHighlights: [
+          'Wajib memiliki Nomor Induk Berusaha (NIB) aktif dan kode KBLI yang sesuai di OSS Indonesia.',
+          'Melampirkan daftar sarana/armada pengangkutan dan pernyataan keselamatan operasi.',
+          'Waktu verifikasi persyaratan maksimal 5 (lima) hari kerja di sistem OSS.',
+          'Laporan operasional disampaikan berkala setiap 6 bulan melalui portal/aplikasi OSS.'
+        ],
         description:
           'Standar Penyelenggaraan Perizinan Berusaha Untuk Menunjang Kegiatan Usaha (PB UMKU) — Izin Usaha Pengangkutan Minyak dan Gas Bumi.',
         pages: [
@@ -78,6 +84,10 @@ export const REGULATIONS_DATA = [
         pagesCount: 2,
         category: 'Standar Produk & Jasa',
         isOriginalBugTarget: false,
+        keyHighlights: [
+          'Peralatan wajib memenuhi Standar Nasional Indonesia (SNI) atau standar teknis.',
+          'Pelaku Usaha Mikro & Kecil (UMK) memperoleh pendampingan teknis pemenuhan standar.'
+        ],
         description:
           'Standar Produk dan Penilaian Kesesuaian pada Penyelenggaraan Perizinan Berusaha Sektor Energi dan Sumber Daya Mineral.',
         pages: [
@@ -93,7 +103,7 @@ export const REGULATIONS_DATA = [
           {
             pageNumber: 2,
             heading: 'TATA CARA PENGAWASAN STANDAR PRODUK',
-            subheading: 'Inspeksi Berkala danKepatuhan Pelaku Usaha',
+            subheading: 'Inspeksi Berkala dan Kepatuhan Pelaku Usaha',
             clauses: [
               '3. Pengawasan dilakukan secara terkoordinasi melalui subsistem Pengawasan pada sistem OSS Berbasis Risiko.',
               '4. Pelaku usaha mikro dan kecil (UMK) mendapatkan pendampingan teknis pemenuhan standar produk.'
@@ -110,6 +120,10 @@ export const REGULATIONS_DATA = [
         pagesCount: 2,
         category: 'Standar Usaha KBLI',
         isOriginalBugTarget: false,
+        keyHighlights: [
+          'Klasifikasi KBLI bidang usaha penyediaan tenaga listrik dan jasa penunjang.',
+          'Pernyataan mandiri (self-declaration) di aplikasi OSS untuk usaha risiko rendah/menengah rendah.'
+        ],
         description:
           'Standar Kegiatan Usaha Subsektor Ketenagalistrikan dan Energi Baru Terbarukan (EBT).',
         pages: [
@@ -142,6 +156,10 @@ export const REGULATIONS_DATA = [
         pagesCount: 1,
         category: 'Ringkasan Peraturan',
         isOriginalBugTarget: false,
+        keyHighlights: [
+          'Melaksanakan ketentuan PP Nomor 5 Tahun 2021 tentang Perizinan Berusaha Berbasis Risiko.',
+          'Menetapkan standar KBLI, standar PB UMKU, dan standar produk sektor ESDM.'
+        ],
         description:
           'Abstrak resmi yang memuat dasar hukum, pokok pikiran, dan ringkasan isi Peraturan Menteri ESDM Nomor 5 Tahun 2021.',
         pages: [
@@ -166,6 +184,10 @@ export const REGULATIONS_DATA = [
         pagesCount: 2,
         category: 'Standar Usaha Migas & Mineral',
         isOriginalBugTarget: false,
+        keyHighlights: [
+          'Memuat daftar kode KBLI 5 digit, tingkat risiko usaha, dan masa berlaku izin.',
+          'Seluruh dokumen persyaratan diunggah dalam format PDF melalui sistem OSS.'
+        ],
         description:
           'Standar Kegiatan Usaha Subsektor Minyak dan Gas Bumi serta Mineral dan Batubara.',
         pages: [
@@ -212,7 +234,12 @@ export const REGULATIONS_DATA = [
         pagesCount: 1,
         category: 'Ringkasan Peraturan',
         isOriginalBugTarget: false,
-        description: 'Ringkasan ketentuan tingkat risiko usaha (Rendah, Menengah Rendah, Menengah Tinggi, Tinggi) untuk penerbitan NIB.',
+        keyHighlights: [
+          'Usaha Risiko Rendah cukup menggunakan NIB sebagai identitas dan legalitas operasional.',
+          'Usaha Mikro & Kecil (UMK) memperoleh perizinan tunggal (NIB, SNI, & Sertifikasi Halal).'
+        ],
+        description:
+          'Ringkasan ketentuan tingkat risiko usaha (Rendah, Menengah Rendah, Menengah Tinggi, Tinggi) untuk penerbitan NIB.',
         pages: [
           {
             pageNumber: 1,
@@ -225,42 +252,11 @@ export const REGULATIONS_DATA = [
             ]
           }
         ]
-      },
-      {
-        id: 'lampiran-i-pp-5-2021',
-        name: 'Lampiran I Peraturan Pemerintah Nomor 5 Tahun 2021 — Matriks KBLI Usaha Mikro & Kecil',
-        fileName: 'Lampiran_I_PP_No_5_Tahun_2021.pdf',
-        format: 'PDF',
-        size: '4.2 MB',
-        pagesCount: 2,
-        category: 'Matriks KBLI & Risiko',
-        isOriginalBugTarget: false,
-        description: 'Daftar kode KBLI dan persyaratan NIB untuk pelaku usaha mandiri dan UMKM.',
-        pages: [
-          {
-            pageNumber: 1,
-            heading: 'LAMPIRAN I — PP NOMOR 5 TAHUN 2021',
-            subheading: 'DAFTAR BIDANG USAHA & KLASIFIKASI RISIKO UMKM',
-            clauses: [
-              '1. Pelaku usaha perseorangan (seperti mahasiswa wirausaha / pemilik usaha rumahan) dapat mendaftarkan NIB menggunakan NIK KTP dan data lokasi usaha.',
-              '2. Pemilihan kode KBLI 5 digit menentukan tingkat risiko dan dokumen pernyataan mandiri yang otomatis diterbitkan oleh sistem OSS.'
-            ]
-          },
-          {
-            pageNumber: 2,
-            heading: 'PERSYARATAN DASAR KESESUAIAN KEGIATAN PEMANFAATAN RUANG',
-            subheading: 'Ketentuan Lokasi Usaha Rumahan & Mikro',
-            clauses: [
-              '3. Untuk usaha mikro dan kecil dengan risiko rendah, pelaku usaha cukup mengisi pernyataan mandiri kesesuaian lokasi usaha tanpa menunggu verifikasi tata ruang yang rumit.'
-            ]
-          }
-        ]
       }
     ]
   }
 ];
 
-// Helper untuk membuat file PDF valid secara dinamis saat user menekan tombol "Unduh PDF"
 export function triggerPdfDownload(attachment) {
   const lines = [
     attachment.name,

@@ -1,14 +1,28 @@
-import React from 'react';
-import { ChevronLeft, FileCheck2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { ChevronLeft, FileCheck2, Search } from 'lucide-react';
 import AttachmentCard from './AttachmentCard';
 
+// Implementasi FR-04 & FR-05:
+// Halaman Detail Regulasi dengan informasi Judul Peraturan, Nomor Peraturan,
+// Sektor Usaha/Kode KBLI, Tanggal Pengundangan, pencarian lampiran, dan daftar lampiran PDF
 export default function RegulationDetailView({
   regulation,
+  cachedIds,
   onBack,
   onOpenAttachment,
-  onDownloadAttachment
+  onDownloadAttachment,
+  onQuickSummary
 }) {
+  const [filterText, setFilterText] = useState('');
+
   if (!regulation) return null;
+
+  const filteredAttachments = regulation.attachments.filter(
+    (att) =>
+      att.name.toLowerCase().includes(filterText.toLowerCase()) ||
+      att.category.toLowerCase().includes(filterText.toLowerCase()) ||
+      att.description.toLowerCase().includes(filterText.toLowerCase())
+  );
 
   return (
     <div className="subpage-view">
@@ -20,8 +34,17 @@ export default function RegulationDetailView({
       </div>
 
       <div className="subpage-content">
-        {/* Header Detail Regulasi sesuai Screenshot Worksheet 1 Halaman 2 */}
+        {/* Header Detail Regulasi (FR-05) */}
         <div className="reg-detail-box">
+          <div className="reg-kbli-tags">
+            <span className="kbli-chip">Sektor: {regulation.sector}</span>
+            {regulation.kbliCodes.map((code) => (
+              <span key={code} className="kbli-code-chip">
+                KBLI {code}
+              </span>
+            ))}
+          </div>
+
           <h2 className="reg-detail-title">{regulation.title}</h2>
 
           <div className="reg-field">
@@ -35,27 +58,39 @@ export default function RegulationDetailView({
           </div>
         </div>
 
-        {/* Bagian Lampiran Regulasi (UX-01, UX-02, UX-04) */}
+        {/* Bagian Lampiran Regulasi (FR-01, FR-02, FR-04) */}
         <div className="attachments-section">
           <div className="attachments-header">
             <div className="attachments-title-wrap">
               <FileCheck2 size={18} color="#1e3a8a" />
               <h3>Dokumen Lampiran Regulasi ({regulation.attachments.length})</h3>
             </div>
-            <span className="ux-req-tag">UX-01 • UX-02 • UX-04</span>
+            <span className="ux-req-tag">FR-01 s/d FR-04</span>
           </div>
 
           <p className="attachments-subtitle">
-            Pilih <strong>Buka Lampiran PDF</strong> untuk membaca isi aturan secara langsung, atau pilih <strong>Unduh</strong> untuk menyimpan berkas PDF ke perangkat Anda.
+            Pilih <strong>Buka Lampiran PDF</strong> untuk membaca isi regulasi secara langsung (FR-01), <strong>Ringkasan</strong> untuk melihat intisari persyaratan, atau <strong>Unduh</strong> (FR-02).
           </p>
 
+          <div className="attachment-filter-bar">
+            <Search size={14} color="#64748b" />
+            <input
+              type="text"
+              placeholder="Filter lampiran berdasarkan nama atau kategori..."
+              value={filterText}
+              onChange={(e) => setFilterText(e.target.value)}
+            />
+          </div>
+
           <div className="attachments-list">
-            {regulation.attachments.map((att) => (
+            {filteredAttachments.map((att) => (
               <AttachmentCard
                 key={att.id}
                 attachment={att}
+                isCached={cachedIds.includes(att.id)}
                 onOpenAttachment={onOpenAttachment}
                 onDownloadAttachment={onDownloadAttachment}
+                onQuickSummary={onQuickSummary}
               />
             ))}
           </div>
